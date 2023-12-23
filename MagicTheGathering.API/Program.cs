@@ -1,4 +1,6 @@
-﻿namespace MagicTheGathering.API
+﻿using MagicTheGathering.API.Repositories;
+
+namespace MagicTheGathering.API
 {
     internal class Program
     {
@@ -10,6 +12,8 @@
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSingleton<ICardRepository, MockCardRepository>();
 
             var app = builder.Build();
 
