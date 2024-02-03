@@ -93,18 +93,19 @@ namespace MagicTheGathering.API.Repositories
 
         public Deck DeleteDeckByID(int id)
         {
-            var deckByID = new Deck();
+            Deck deletedDeck = null;
 
             foreach (var deck in decks)
             {
                 if (deck.DeckID == id)
                 {
-                    deckByID = deck;
+                    deletedDeck = deck;
+                    decks.Remove(deletedDeck);
+                    break;
                 }
             }
 
-            decks.Remove(deckByID);
-            return deckByID;
+            return deletedDeck; 
         }
     }
 }

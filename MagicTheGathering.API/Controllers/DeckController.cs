@@ -63,7 +63,7 @@ namespace MagicTheGathering.API.Controllers
         {
             try
             {
-                var deck = _deckRepository.GetDeckByID(id);
+                var deck = _deckRepository.DeleteDeckByID(id);
                 return Ok($"The deck with ID: {id} has been successfully removed form the decks list.");
             }
             catch (Exception)
