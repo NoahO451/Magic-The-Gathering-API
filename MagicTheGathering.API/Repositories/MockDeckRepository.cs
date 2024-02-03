@@ -74,5 +74,37 @@ namespace MagicTheGathering.API.Repositories
             decks.Add(deck);
             return deck;
         }
+
+        public ICollection<Deck> GetAllDecks() => decks;
+
+        public Deck GetDeckByID(int id)
+        {
+            var deckByID = new Deck(); 
+            
+            foreach (var deck in decks)
+            {
+                if (deck.DeckID == id)
+                {
+                    deckByID = deck;
+                }
+            }
+            return deckByID;
+        }
+
+        public Deck DeleteDeckByID(int id)
+        {
+            var deckByID = new Deck();
+
+            foreach (var deck in decks)
+            {
+                if (deck.DeckID == id)
+                {
+                    deckByID = deck;
+                }
+            }
+
+            decks.Remove(deckByID);
+            return deckByID;
+        }
     }
 }

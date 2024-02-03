@@ -15,7 +15,7 @@ namespace MagicTheGathering.API.Controllers
             _deckRepository = deckRepository;
         }
 
-        [HttpPost]
+        [HttpPost ("GenerateDeck")]
         public async Task<IActionResult> GenerateDeck()
         {
             try
@@ -25,6 +25,48 @@ namespace MagicTheGathering.API.Controllers
                 return Ok(newDeck); //come back here and figure out how I want to return the deck and status of failed or success
             }
             catch (Exception) 
+            {
+                return StatusCode(500, "Something went wrong.");
+            }
+        }
+
+        [HttpGet ("GetAllDecks")]
+        public async Task<IActionResult> GetAllDecks()
+        {
+            try
+            {
+                var decks = _deckRepository.GetAllDecks();
+                return Ok(decks);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Something went wrong.");
+            }
+        }
+
+        [HttpGet ("GetDeckByID")]
+
+        public async Task<IActionResult> GetDeckByID(int id)
+        {
+            try
+            {
+                var deck = _deckRepository.GetDeckByID(id);
+                return Ok(deck);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Something went wrong.");
+            }
+        }
+        [HttpPost ("DeleteDeckByID")]
+        public async Task<IActionResult> DeleteDeckByID(int id)
+        {
+            try
+            {
+                var deck = _deckRepository.GetDeckByID(id);
+                return Ok($"The deck with ID: {id} has been successfully removed form the decks list.");
+            }
+            catch (Exception)
             {
                 return StatusCode(500, "Something went wrong.");
             }
