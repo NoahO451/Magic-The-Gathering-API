@@ -11,12 +11,13 @@ namespace MagicTheGathering.API.Controllers
     public class CardController : ControllerBase
     {
         private ICardRepository _cardRepository;
-        
+
         public CardController(ICardRepository cardRepository)
         {
             _cardRepository = cardRepository;
         }
-        [HttpGet]
+
+        [HttpGet("GetAllCards")]
         public async Task<IActionResult> GetAllCards()
         {
             var cards = _cardRepository.GetAllCards();
@@ -31,6 +32,24 @@ namespace MagicTheGathering.API.Controllers
             var  newCard = _cardRepository.AddCard(card);
 
             return Ok(newCard);
+        }
+
+        [HttpGet("GetCardByID")]
+        public async Task<IActionResult> GetCardByID(int id)
+        {
+            try
+            {
+                Task<Card> taskCard = _cardRepository.GetCardById(id);
+
+                Card card = taskCard.Result;
+
+                return Ok(card);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "Something went wrong.");
+            }
         }
     }
 }

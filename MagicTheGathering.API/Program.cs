@@ -13,7 +13,7 @@ namespace MagicTheGathering.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddSingleton<ICardRepository, MockCardRepository>();
+            builder.Services.AddSingleton<ICardRepository, CardRepository>();
             builder.Services.AddSingleton<IDeckRepository, MockDeckRepository>();
 
             var app = builder.Build();

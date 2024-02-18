@@ -4,7 +4,14 @@ namespace MagicTheGathering.API.Repositories
 {
     public interface ICardRepository
     {
-        ICollection<Card> GetAllCards();
-        Card AddCard(Card card);
+        Task<ICollection<Card>> GetAllCards();
+
+        Task<Card> AddCard(Card card);
+
+        Task<bool> RemoveCard(int id);
+
+        Task<Card> GetCardById(int id);
+
+        Task<bool> UpdateCard(Card card);
     }
 }

@@ -18,6 +18,10 @@ namespace MagicTheGathering.API.Models
 
         public ManaCost ManaCost { get; set; }
 
+        public List<string> CardType { get; set; }
+
+        public List<string> CardSubType { get; set; }
+
         public List<CardType> CardTypes { get; set; }
 
         public List<CardSubType>? CardSubTypes { get; set; }
@@ -31,6 +35,13 @@ namespace MagicTheGathering.API.Models
         public int Black { get; set; }
         public int Red { get; set; }
         public int Green { get; set; }
+    }
+
+    public class CardCardType
+    {
+        public string TypeName { get; set; }
+
+        public int IsSubType { get; set; }
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

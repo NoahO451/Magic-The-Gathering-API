@@ -825,5 +825,45 @@ namespace MagicTheGathering.API.Repositories
         }
 
         public ICollection<Card> GetAllCards() => cards;
+
+        public Card GetCardById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveCard(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateCard(Card card)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Card> ICardRepository.AddCard(Card card)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<ICollection<Card>> ICardRepository.GetAllCards()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Card> ICardRepository.GetCardById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> ICardRepository.RemoveCard(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> ICardRepository.UpdateCard(Card card)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

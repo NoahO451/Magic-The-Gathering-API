@@ -21,7 +21,8 @@ namespace MagicTheGathering.API.Repositories
         {
             var deck = new Deck();
             deck.Cards = new List<Card>();
-            var cards = _cardRepository.GetAllCards();
+            var cardsTask = _cardRepository.GetAllCards();
+            var cards = cardsTask.Result;
             var legendCards = new List<Card>();
             var allCards = new List<Card>();
             Random random = new Random();
