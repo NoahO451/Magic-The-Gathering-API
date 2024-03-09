@@ -20,9 +20,20 @@ namespace MagicTheGathering.API.Controllers
         [HttpGet("GetAllCards")]
         public async Task<IActionResult> GetAllCards()
         {
-            var cards = _cardRepository.GetAllCards();
+            try
+            {
+                var cards = _cardRepository.GetAllCards();
 
-            return Ok(cards);
+                var cardList = cards.Result;
+
+                return Ok(cardList);
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500, "Something went wrong.");
+            }
         }
 
         [HttpPost("AddCard")]

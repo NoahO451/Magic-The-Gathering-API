@@ -42,6 +42,8 @@ namespace MagicTheGathering.API.Models
         public string TypeName { get; set; }
 
         public int IsSubType { get; set; }
+
+        public int CardId { get; set; }
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
