@@ -18,9 +18,47 @@ namespace MagicTheGathering.API.Repositories
                 using (var connection = new SqlConnection(connectionString))
                 {
                     string sqlAddCard = @"INSERT INTO Card (Name, ImageURI, ConvertedManaCost, Colorless, White, Blue, Black, Red, Green)
+                                       OUTPUT INSERTED.CardId
                                        VALUES (@Name, @ImageURI, @ConvertedManaCost, @Colorless, @White, @Blue, @Black, @Red, @Green)";
-                    var addedCard = await connection.ExecuteAsync(sqlAddCard, new { Name = card.Name, ImageURI = card.ImageUri, ConvertedManaCost = card.ConvertedManaCost, Colorless = card.ManaCost.Colorless, White = card.ManaCost.White,
+
+                    var curCardId = await connection.QuerySingleAsync<int>(sqlAddCard, new { Name = card.Name, ImageURI = card.ImageUri, ConvertedManaCost = card.ConvertedManaCost, Colorless = card.ManaCost.Colorless, White = card.ManaCost.White,
                         Blue = card.ManaCost.Blue, Black = card.ManaCost.Black, Red = card.ManaCost.Red, Green = card.ManaCost.Green });
+
+                    foreach (var cardtype in card.CardType)
+                    {
+                        string sqlAddCardT = @"INSERT INTO CardType (TypeName)
+                                           VALUES (@TypeName)";
+
+                        var addedCardType = await connection.ExecuteAsync(sqlAddCardT, new { TypeName = cardtype });
+
+                        string sqlGetCTId = @"SELECT TOP 1 CardTypeId, TypeName FROM CardType
+                                           WHERE TypeName = @TypeName";
+
+                        CardTypes curCT = await connection.QuerySingleAsync<CardTypes>(sqlGetCTId, new { TypeName = cardtype });
+
+                        string sqlAddCCT = @"INSERT INTO Card_CardType (CardId, CardTypeId, IsSubType)
+                                          VALUES (@CardId, @CardTypeId, @IsSubType)";
+
+                        var addedCCT = await connection.ExecuteAsync(sqlAddCCT, new { CardId = curCardId, CardTypeId = curCT.CardTypeId, IsSubType = 0});
+                    }
+
+                    foreach (var cardtype in card.CardSubType)
+                    {
+                        string sqlAddCardT = @"INSERT INTO CardType (TypeName)
+                                           VALUES (@TypeName)";
+
+                        var addedCardType = await connection.ExecuteAsync(sqlAddCardT, new { TypeName = cardtype });
+
+                        string sqlGetCTId = @"SELECT TOP 1 CardTypeId, TypeName FROM CardType
+                                           WHERE TypeName = @TypeName";
+
+                        CardTypes curCT = await connection.QuerySingleAsync<CardTypes>(sqlGetCTId, new { TypeName = cardtype });
+
+                        string sqlAddCCT = @"INSERT INTO Card_CardType (CardId, CardTypeId, IsSubType)
+                                          VALUES (@CardId, @CardTypeId, @IsSubType)";
+
+                        var addedCCT = await connection.ExecuteAsync(sqlAddCCT, new { CardId = curCardId, CardTypeId = curCT.CardTypeId, IsSubType = 1 });
+                    }
 
                     return card;
                 }

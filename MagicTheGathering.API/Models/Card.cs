@@ -37,6 +37,12 @@ namespace MagicTheGathering.API.Models
         public int Green { get; set; }
     }
 
+    public class CardTypes
+    {
+        public string TypeName { get; set; }
+        public int CardTypeId { get; set; }
+    }
+
     public class CardCardType
     {
         public string TypeName { get; set; }
