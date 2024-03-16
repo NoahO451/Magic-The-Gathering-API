@@ -12,6 +12,6 @@ namespace MagicTheGathering.API.Repositories
 
         Task<Card> GetCardById(int id);
 
-        Task<bool> UpdateCard(Card card);
+        Task<bool> UpdateCard(Card card, int id);
     }
 }

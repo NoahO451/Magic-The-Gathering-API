@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.VisualBasic;
 using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Xml.Linq;
 
 namespace MagicTheGathering.API.Repositories
 {
@@ -194,19 +195,59 @@ namespace MagicTheGathering.API.Repositories
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
 
-        public Task<bool> RemoveCard(int id)
+        public async Task<bool> RemoveCard(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    string sqlRemoveCard = @"DELETE FROM Card WHERE CardId = @SelectedId";
+
+                    var removeCardResults = await connection.ExecuteAsync(sqlRemoveCard, param: new { SelectedId = id});
+
+                    if (removeCardResults >= 1) { return true; } else { return false; }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
-        public Task<bool> UpdateCard(Card card)
+        public async Task<bool> UpdateCard(Card card, int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    string sqlUpdateCard = @"UPDATE Card 
+                                            SET Name = @Name, ImageURI = @ImageURI, ConvertedManaCost = @ConvertedManaCost, Colorless = @Colorless, White = @White, Blue = @Blue, Black = @Black, Red = @Red, Green = @Green
+                                            WHERE CardId = @SelectedId";
+
+                    var updatedCurCard = await connection.ExecuteAsync(sqlUpdateCard, new
+                    {
+                        Name = card.Name,
+                        ImageURI = card.ImageUri,
+                        ConvertedManaCost = card.ConvertedManaCost,
+                        Colorless = card.ManaCost.Colorless,
+                        White = card.ManaCost.White,
+                        Blue = card.ManaCost.Blue,
+                        Black = card.ManaCost.Black,
+                        Red = card.ManaCost.Red,
+                        Green = card.ManaCost.Green,
+                        SelectedId = id,
+                    });
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
