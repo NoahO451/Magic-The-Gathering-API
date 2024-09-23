@@ -6,8 +6,7 @@ namespace MagicTheGathering.API
     {
         static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args); //lots of magic... 
-
+            var builder = WebApplication.CreateBuilder(args); 
             builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();
@@ -23,7 +22,6 @@ namespace MagicTheGathering.API
 
             app.MapControllers();
 
-            //app.MapGet("/", () => "Hello World!"); 
 
             app.Run();
         }
