@@ -39,9 +39,9 @@ namespace MagicTheGathering.API.Controllers
         [HttpPost("AddCard")]
         public async Task<IActionResult> AddCard(Card card)
         {
-            var  newCard = _cardRepository.AddCard(card);
+            var  newCard = await _cardRepository.AddCard(card);
 
-            return Ok( await newCard);
+            return Ok(newCard);
         }
 
         [HttpGet("GetCardByID")]
@@ -67,9 +67,9 @@ namespace MagicTheGathering.API.Controllers
         {
             try
             {
-                Task<bool> removedCard = _cardRepository.RemoveCard(id);
+                bool removedCard = await _cardRepository.RemoveCard(id);
 
-                return Ok( await removedCard);
+                return Ok(removedCard);
 
             }
             catch (Exception)
